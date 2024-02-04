@@ -1,17 +1,16 @@
 import factory.DriverFactory;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class LayoutsTest {
 
@@ -41,12 +40,15 @@ public class LayoutsTest {
         logger.info("Открыт сайт demo.w3layouts в режиме киоска");
 
 
-        WebElement elImage = driver.findElement(By.cssSelector(".image-zoom"));
+        List<WebElement> listOfImg = driver.findElements(By.cssSelector("div.content-overlay"));
+
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].scrollIntoView()", listOfImg.get(0));
+
+        listOfImg.get(0).click();
+        logger.info("Кликнули по картинке");
 
         String modalSelector = ".pp_hoverContainer";
-
-        elImage.click();
-        logger.info("Кликнули по картинке");
 
         webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(modalSelector))));
 

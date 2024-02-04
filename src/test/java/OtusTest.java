@@ -6,8 +6,6 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -30,7 +28,7 @@ public class OtusTest {
     public void startDriver() {
         driver = new DriverFactory().create();
         driver.manage().window().maximize();
-        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         logger.info("Драйвер запущен");
     }
 
@@ -47,7 +45,8 @@ public class OtusTest {
         driver.get("https://otus.ru");
         logger.info("Перешли на сайт otus.ru");
         String LoginButtonLocator = "//button[text()='Войти']";
-        webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(LoginButtonLocator))));
+        webDriverWait
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(LoginButtonLocator)));
         driver.findElement(By.xpath(LoginButtonLocator)).click();
 
         driver.findElement(By.xpath("//div[./input[@name='email']]")).click();
